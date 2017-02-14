@@ -28,6 +28,7 @@ public class EMTPanel extends JPanel implements Animated, MouseListener
     private ArrayList<Hospital>  _hospitals;
     private EMTVehicle           _emt1;
     private ArrayList<EmergencySite> _site;
+    private Dispatcher   _dispatcher;
     
     
     
@@ -154,6 +155,7 @@ public class EMTPanel extends JPanel implements Animated, MouseListener
      */
     public void setAnimated( boolean onOff )
     {
+      _animated = onOff;
     }
     //---------------------- newFrame ------------------------------
     /**
@@ -168,8 +170,16 @@ public class EMTPanel extends JPanel implements Animated, MouseListener
         //   depending on your design decisions, other things might
         //   also be done here.
         //////////////////////////////////////////////////////////////////
+        _emt1.newFrame();
+        _dispatcher.newFrame();
         
-        repaint();
+        if( _emt1.isAnimated() == false )
+        {
+          JLine line2 = new JLine( ( int ) _emt1.getBounds().getX(), ( int ) _emt1.getBounds().getY(), 
+                               ( int ) _emt1.getBounds().getX(), ( int ) _emt1.getBounds().getY() );
+          this.add( line2 );
+        }
+          repaint();
     }
     
     //++++++++++++++++++ MouseListener methods +++++++++++++++++++++++++++
@@ -188,7 +198,11 @@ public class EMTPanel extends JPanel implements Animated, MouseListener
         ////////////////////////////////////////////////////////////////
         // Need to add a new Emergency site here
         ////////////////////////////////////////////////////////////////
-        
+        Point p5 = me.getPoint( );
+        EmergencySite _site2 = new EmergencySite( p5 );
+        _site2.setColor( Color.BLUE );
+        _site.add( _site2 );
+        this.add( _site2 );
         repaint();      
     }
     //------------- unused interface methods -----------------

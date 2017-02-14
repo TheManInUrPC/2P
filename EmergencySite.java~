@@ -76,9 +76,7 @@ public class EmergencySite extends JRectangle
         //
         // Assign it to the instance variable, _saveMouse
         /////////////////////////////////////////////////////////////
-        _saveMouse = getParent().getMousePosition();
-        super.setFillColor( Color.BLACK );
-        super.setFrameColor( lineColor );
+        
         
         
     }
@@ -96,11 +94,7 @@ public class EmergencySite extends JRectangle
         //      object will know this site is no longer a real site
         //      and should not be visited by the emt vehicle.
         //////////////////////////////////////////////////////////////
-        _saveMouse = getParent().getMousePosition();
-        super.setFillColor( Color.WHITE );
-        super.setFrameColor( lineColor );
         
-        _visited = true;
         
         
     }
@@ -124,14 +118,7 @@ public class EmergencySite extends JRectangle
         //     Save new position in _saveMouse
         //     getParent().repaint()
         //////////////////////////////////////////////////////////////
-        if( _draggable == true )
-        {
-          Point p2 = getParent().getMousePosition();
-          
-          moveBy( p2.x - _saveMouse.x, p2.y - _saveMouse.y );
-          _saveMouse = p2;
-          getParent().repaint();
-        }
+        
         
         
         
@@ -140,16 +127,6 @@ public class EmergencySite extends JRectangle
     //----------------- mouseMoved not implemented -------------------
     public void mouseMoved( MouseEvent me ){}
     //+++++++++++++++++ end MouseMotionListeners +++++++++++++++++++++
-    
-    public boolean isVisited()
-    {
-      return _visited;
-    }
-    
-    public void setVisited( boolean visited )
-    {
-      _visited = visited;
-    }
     
     //--------------------- main -----------------------------------
     /**

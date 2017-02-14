@@ -41,6 +41,7 @@ public class Dispatcher implements Animated
     private ArrayList<EmergencySite> _site;
     private FrameTimer _timer;
     private EMTVehicle emt1;
+    private Boolean travelling;
     
     //------------------ constructor -----------------------------
     public Dispatcher( ArrayList<EmergencySite> site, ArrayList<Hospital> hospitals, EMTVehicle emt, FrameTimer timer )
@@ -63,7 +64,7 @@ public class Dispatcher implements Animated
         // get next site from list of sites or from someone who has
         //    list of sites.
         //////////////////////////////////////////////////////////////
-        
+        next = _site.get(0);
         
         _hospitals.get(0);
         
@@ -129,7 +130,43 @@ public class Dispatcher implements Animated
         //       emergencies.
         //////////////////////////////////////////////////////////////
         
+        Point p1 = new Point();
         
+        p1.x = (int)emt1.getBounds().getX();
+        p1.y = (int)emt1.getBounds().getY();
+        
+        if( emt1.isAnimated() == true )
+        {
+            emt1.newFrame();
+        }
+        else if( emt1.isAnimated() == false )
+        {
+            if( getNextSite().isVisited() == true )
+            {
+                Hospital _h = getClosestHospital( p1 );
+                
+                int hLocX = _h.getLocation().x;
+                int hLocY = _h.getLocation().y;
+                
+                emt1.travelTo( hLocX , hLocY , 15 );
+                travelling = false;
+                return;
+            }
+            else if( getNextSite().isVisited() == false )
+            {
+                if( _site.size() > 0 )
+                {
+                  emt1.travelTo( (int)getNextSite().getBounds().getX(), (int)getNextSite().getBounds().getX(), 15 );
+                  getNextSite().setVisited( true );
+                  getNextSite().remove( 0 );
+                  
+                } 
+                else if( _site.size() == 0 )
+                {
+                  emt1.travelTo( 20 , 20 , 15 );
+                }
+            }
+        }
     }
     //+++++++++++++++ end Animated interface +++++++++++++++++++++++++
 }

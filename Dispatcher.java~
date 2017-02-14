@@ -38,15 +38,20 @@ public class Dispatcher implements Animated
 {
     //-------------------- instance variables ---------------------
     private ArrayList<Hospital> _hospitals;
+    private ArrayList<EmergencySite> _site;
+    private FrameTimer _timer;
+    private EMTVehicle emt1;
+    private Boolean travelling;
     
     //------------------ constructor -----------------------------
-    public Dispatcher( 
-                      ArrayList<Hospital> hospitals
-                          // what else do you need or want?
-                     )
+    public Dispatcher( ArrayList<EmergencySite> site, ArrayList<Hospital> hospitals, EMTVehicle emt, FrameTimer timer )
     {
         _hospitals = hospitals;
         // most/all of what you get will be saved in instance variables
+        _site = site;
+        _timer = timer;
+        emt1 = emt;
+        
     }
     //---------------------- setNextSite() -------------------------
     /**
@@ -61,6 +66,7 @@ public class Dispatcher implements Animated
         //////////////////////////////////////////////////////////////
         
         
+        _hospitals.get(0);
         
         return next;
     }
@@ -124,7 +130,33 @@ public class Dispatcher implements Animated
         //       emergencies.
         //////////////////////////////////////////////////////////////
         
+        Point p1 = new Point();
         
+        p1.x = emt1.getBounds().getX();
+        p1.y = emt1.getBounds().getY();
+        
+        if( emt1.isAnimated() == true )
+        {
+            emt1.newFrame();
+        }
+        else if( emt1.isAnimated() == false )
+        {
+            if( travelling == true )
+            {
+                Hospital _h = getClosestHospital( p1 );
+                
+                int hLocX = _h.getLocation().x;
+                int hLocY = _h.getLocation().y;
+                
+                emt1.goTo( hLocX , hLocY , 15 );
+                travelling = false;
+                return;
+            }
+            if( visiting == false )
+            {
+                
+            }
+        }
     }
     //+++++++++++++++ end Animated interface +++++++++++++++++++++++++
 }
